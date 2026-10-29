@@ -5,17 +5,13 @@ class AppUser {
   final String? displayName;
   final String? email;
 
-  const AppUser({
-    required this.uid,
-    this.displayName,
-    this.email,
-  });
+  const AppUser({required this.uid, this.displayName, this.email});
 
   Map<String, dynamic> toJson() => {
-        'uid': uid,
-        'displayName': displayName,
-        'email': email,
-      };
+    'uid': uid,
+    'displayName': displayName,
+    'email': email,
+  };
 
   factory AppUser.fromJson(Map<String, dynamic> data) {
     return AppUser(

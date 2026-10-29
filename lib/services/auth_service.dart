@@ -16,11 +16,7 @@ class AuthService {
     if (existing != null) return existing;
 
     // Guests use the app without an email account.
-    final guest = AppUser(
-      uid: 'guest',
-      displayName: 'Guest',
-      email: null,
-    );
+    final guest = AppUser(uid: 'guest', displayName: 'Guest', email: null);
     await prefs.setString(_currentUserKey, guest.encode());
     return guest;
   }

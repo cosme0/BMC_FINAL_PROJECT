@@ -20,9 +20,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void _addToCart() {
     context.read<CartProvider>().add(p, quantity: _qty);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Added to cart')),
-    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Added to cart')));
   }
 
   void _buyNow() {
@@ -47,13 +46,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 320,
               width: double.infinity,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox(
+              errorBuilder: (_, _, _) => const SizedBox(
                 height: 320,
                 child: ColoredBox(
                   color: Color(0xFF2A2A2A),
                   child: Center(
-                    child: Icon(Icons.image_not_supported,
-                        size: 64, color: Colors.white54),
+                    child: Icon(
+                      Icons.image_not_supported,
+                      size: 64,
+                      color: Colors.white54,
+                    ),
                   ),
                 ),
               ),
@@ -63,32 +65,47 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(p.name,
-                      style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white)),
+                  Text(
+                    p.name,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text('\$${p.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFE50914))),
+                  Text(
+                    '₱${p.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFE50914),
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text('Category: ${p.category}',
-                      style: const TextStyle(color: Colors.white70)),
-                  Text('Stock: ${p.stock}',
-                      style: const TextStyle(color: Colors.white70)),
+                  Text(
+                    'Category: ${p.category}',
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                  Text(
+                    'Stock: ${p.stock}',
+                    style: const TextStyle(color: Colors.white70),
+                  ),
                   const SizedBox(height: 12),
-                  Text(p.description,
-                      style: const TextStyle(color: Colors.white)),
+                  Text(
+                    p.description,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                   if (p.features.isNotEmpty) ...[
                     const SizedBox(height: 16),
-                    const Text('FEATURES',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.1)),
+                    const Text(
+                      'FEATURES',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.1,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     ...p.features.map(
                       (f) => Padding(
@@ -98,12 +115,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           children: [
                             const Padding(
                               padding: EdgeInsets.only(top: 6, right: 8),
-                              child: Icon(Icons.circle,
-                                  size: 6, color: Color(0xFFE50914)),
+                              child: Icon(
+                                Icons.circle,
+                                size: 6,
+                                color: Color(0xFFE50914),
+                              ),
                             ),
                             Expanded(
-                              child: Text(f,
-                                  style: const TextStyle(color: Colors.white)),
+                              child: Text(
+                                f,
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
                           ],
                         ),
@@ -113,38 +135,54 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   const SizedBox(height: 24),
                   Row(
                     children: [
-                      const Text('Quantity: ',
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                      const Text(
+                        'Quantity: ',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                       IconButton(
                         onPressed: _qty > 1
                             ? () => setState(() => _qty--)
                             : null,
-                        icon: const Icon(Icons.remove_circle_outline,
-                            color: Colors.white),
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.white,
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFF1E1E1E),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.white24),
                         ),
-                        child: Text('$_qty',
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.white)),
+                        child: Text(
+                          '$_qty',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                       IconButton(
                         onPressed: _qty < p.stock
                             ? () => setState(() => _qty++)
                             : null,
-                        icon: const Icon(Icons.add_circle_outline,
-                            color: Colors.white),
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.white,
+                        ),
                       ),
                       const Spacer(),
-                      Text('Qty: $_qty',
-                          style: const TextStyle(
-                              color: Colors.white54, fontSize: 12)),
+                      Text(
+                        'Qty: $_qty',
+                        style: const TextStyle(
+                          color: Colors.white54,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -170,8 +208,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onPressed: p.stock <= 0 ? null : _buyNow,
-                  child: const Text('BUY NOW',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'BUY NOW',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -182,8 +222,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onPressed: p.stock <= 0 ? null : _addToCart,
-                  child: const Text('ADD TO CART',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'ADD TO CART',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ],

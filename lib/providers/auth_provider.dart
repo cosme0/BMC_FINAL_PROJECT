@@ -5,7 +5,11 @@ import '../services/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthService _service = AuthService();
-  AppUser? user = const AppUser(uid: 'guest', displayName: 'Guest', email: null);
+  AppUser? user = const AppUser(
+    uid: 'guest',
+    displayName: 'Guest',
+    email: null,
+  );
   bool loading = false;
   String? error;
 
@@ -49,7 +53,11 @@ class AuthProvider extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      user = await _service.signUp(email: email, password: password, name: name);
+      user = await _service.signUp(
+        email: email,
+        password: password,
+        name: name,
+      );
     } catch (e) {
       error = _friendlyAuthError(e, fallback: 'Sign up failed');
     } finally {

@@ -28,20 +28,19 @@ class Product {
       imageUrl: (data['imageUrl'] ?? '').toString(),
       stock: (data['stock'] as num? ?? 0).toInt(),
       category: (data['category'] ?? 'General').toString(),
-      features: (data['features'] as List?)
-              ?.map((e) => e.toString())
-              .toList() ??
+      features:
+          (data['features'] as List?)?.map((e) => e.toString()).toList() ??
           const [],
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'name': name,
-        'description': description,
-        'price': price,
-        'imageUrl': imageUrl,
-        'stock': stock,
-        'category': category,
-        'features': features,
-      };
+    'name': name,
+    'description': description,
+    'price': price,
+    'imageUrl': imageUrl,
+    'stock': stock,
+    'category': category,
+    'features': features,
+  };
 }

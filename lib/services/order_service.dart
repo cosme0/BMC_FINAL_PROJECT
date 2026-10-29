@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/order.dart';
 
 class OrderService {
@@ -32,22 +33,22 @@ class OrderService {
       return doc.id;
     } catch (e, st) {
       // Keep the demo/presentation flow working when backend is unavailable.
-      developer.log('placeOrder failed; using local fallback',
-          error: e, stackTrace: st);
+      developer.log(
+        'placeOrder failed; using local fallback',
+        error: e,
+        stackTrace: st,
+      );
       return 'local-${DateTime.now().millisecondsSinceEpoch}';
     }
   }
 
   Stream<List<OrderModel>> streamOrdersForUser(String userId) {
-    return _orders
-        .where('userId', isEqualTo: userId)
-        .snapshots()
-        .map((snap) {
-          final list = snap.docs
-              .map((d) => OrderModel.fromMap(d.data(), d.id))
-              .toList();
-          list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-          return list;
-        });
+    return _orders.where('userId', isEqualTo: userId).snapshots().map((snap) {
+      final list = snap.docs
+          .map((d) => OrderModel.fromMap(d.data(), d.id))
+          .toList();
+      list.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      return list;
+    });
   }
 }

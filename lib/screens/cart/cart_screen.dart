@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../providers/cart_provider.dart';
 import '../checkout/checkout_screen.dart';
 
@@ -29,25 +30,29 @@ class CartScreen extends StatelessWidget {
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                const Icon(Icons.image),
+                            errorBuilder: (_, _, _) => const Icon(Icons.image),
                           ),
                           title: Text(item.product.name),
                           subtitle: Text(
-                              '\$${item.product.price.toStringAsFixed(2)} x ${item.quantity}'),
+                            '₱${item.product.price.toStringAsFixed(2)} x ${item.quantity}',
+                          ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.remove),
                                 onPressed: () => cart.updateQuantity(
-                                    item.product.id, item.quantity - 1),
+                                  item.product.id,
+                                  item.quantity - 1,
+                                ),
                               ),
                               Text(item.quantity.toString()),
                               IconButton(
                                 icon: const Icon(Icons.add),
                                 onPressed: () => cart.updateQuantity(
-                                    item.product.id, item.quantity + 1),
+                                  item.product.id,
+                                  item.quantity + 1,
+                                ),
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete),
@@ -65,17 +70,22 @@ class CartScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total: \$${cart.total.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(
+                        'Total: ₱${cart.total.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       FilledButton(
                         onPressed: items.isEmpty
                             ? null
                             : () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const CheckoutScreen()),
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const CheckoutScreen(),
                                 ),
+                              ),
                         child: const Text('Checkout'),
                       ),
                     ],

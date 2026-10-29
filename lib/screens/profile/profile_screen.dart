@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../providers/auth_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -17,11 +18,13 @@ class ProfileScreen extends StatelessWidget {
           children: [
             const CircleAvatar(radius: 48, child: Icon(Icons.person, size: 48)),
             const SizedBox(height: 16),
-            Text(user?.displayName ?? 'User',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              user?.displayName ?? 'User',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             Text(user?.email ?? ''),
             const SizedBox(height: 24),
-            Text('Guest account (no login required)')
+            Text('Guest account (no login required)'),
           ],
         ),
       ),

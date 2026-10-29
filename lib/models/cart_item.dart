@@ -9,10 +9,10 @@ class CartItem {
   double get lineTotal => product.price * quantity;
 
   Map<String, dynamic> toMap() => {
-        'productId': product.id,
-        'name': product.name,
-        'price': product.price,
-        'imageUrl': product.imageUrl,
-        'quantity': quantity,
-      };
+    'productId': product.id,
+    'name': product.name,
+    'price': product.price,
+    'imageUrl': product.imageUrl,
+    'quantity': quantity,
+  };
 }

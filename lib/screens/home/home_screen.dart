@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import '../../providers/cart_provider.dart';
 import '../../services/product_service.dart';
 import '../../widgets/product_card.dart';
 import '../cart/cart_screen.dart';
+import '../debug/debug_screen.dart';
 import '../orders/orders_screen.dart';
 import '../profile/profile_screen.dart';
 
@@ -36,42 +38,34 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'lib/img/logoV2.jpg',
-              height: 32,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => const Icon(Icons.local_fire_department,
-                  color: Color(0xFFE50914)),
+        title: SizedBox(
+          width: 44,
+          height: 44,
+          child: Image.asset(
+            'lib/img/logoV2.jpg',
+            fit: BoxFit.contain,
+            errorBuilder: (_, _, _) => const Icon(
+              Icons.local_fire_department,
+              color: Color(0xFFE50914),
             ),
-            const SizedBox(width: 8),
-            RichText(
-              text: const TextSpan(
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
-                ),
-                children: [
-                  TextSpan(text: 'FIRST '),
-                  TextSpan(
-                    text: 'GEAR',
-                    style: TextStyle(color: Color(0xFFE50914)),
-                  ),
-                  TextSpan(text: ' GYM'),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
         actions: [
+          IconButton(
+            tooltip: 'Order History',
+            icon: const Icon(Icons.receipt_long, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const OrdersScreen()),
+            ),
+          ),
           Stack(
             children: [
               IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  color: Colors.white,
+                ),
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const CartScreen()),
@@ -114,22 +108,47 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.receipt_long, color: Colors.white),
-              title: const Text('My Orders', style: TextStyle(color: Colors.white)),
+              title: const Text(
+                'My Orders',
+                style: TextStyle(color: Colors.white),
+              ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const OrdersScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const OrdersScreen()),
+                );
               },
             ),
             ListTile(
               leading: const Icon(Icons.person, color: Colors.white),
-              title: const Text('Profile', style: TextStyle(color: Colors.white)),
+              title: const Text(
+                'Profile',
+                style: TextStyle(color: Colors.white),
+              ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const ProfileScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                );
               },
             ),
+            if (kDebugMode)
+              ListTile(
+                leading: const Icon(Icons.bug_report, color: Color(0xFFE50914)),
+                title: const Text(
+                  'Debug',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const DebugScreen()),
+                  );
+                },
+              ),
           ],
         ),
       ),
@@ -160,27 +179,31 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, snap) {
                 final cats = <String>{'All'};
                 if (snap.hasData) {
-                  for (final p in snap.data!) { cats.add(p.category); }
+                  for (final p in snap.data!) {
+                    cats.add(p.category);
+                  }
                 }
                 return ListView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   children: cats
-                      .map((c) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: ChoiceChip(
-                              label: Text(c),
-                              selected: _category == c,
-                              onSelected: (_) => setState(() => _category = c),
-                              selectedColor: const Color(0xFFE50914),
-                              backgroundColor: const Color(0xFF1E1E1E),
-                              labelStyle: TextStyle(
-                                color: _category == c
-                                    ? Colors.white
-                                    : Colors.white70,
-                              ),
+                      .map(
+                        (c) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: ChoiceChip(
+                            label: Text(c),
+                            selected: _category == c,
+                            onSelected: (_) => setState(() => _category = c),
+                            selectedColor: const Color(0xFFE50914),
+                            backgroundColor: const Color(0xFF1E1E1E),
+                            labelStyle: TextStyle(
+                              color: _category == c
+                                  ? Colors.white
+                                  : Colors.white70,
                             ),
-                          ))
+                          ),
+                        ),
+                      )
                       .toList(),
                 );
               },
@@ -192,22 +215,32 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, snap) {
                 if (snap.connectionState == ConnectionState.waiting) {
                   return const Center(
-                      child: CircularProgressIndicator(color: Color(0xFFE50914)));
+                    child: CircularProgressIndicator(color: Color(0xFFE50914)),
+                  );
                 }
                 if (snap.hasError) {
-                  return Center(child: Text('Error: ${snap.error}',
-                      style: const TextStyle(color: Colors.white)));
+                  return Center(
+                    child: Text(
+                      'Error: ${snap.error}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
                 }
                 final products = (snap.data ?? [])
-                    .where((p) =>
-                        (_category == 'All' || p.category == _category) &&
-                        (p.name.toLowerCase().contains(_query) ||
-                            p.description.toLowerCase().contains(_query)))
+                    .where(
+                      (p) =>
+                          (_category == 'All' || p.category == _category) &&
+                          (p.name.toLowerCase().contains(_query) ||
+                              p.description.toLowerCase().contains(_query)),
+                    )
                     .toList();
                 if (products.isEmpty) {
                   return const Center(
-                      child: Text('No products found',
-                          style: TextStyle(color: Colors.white70)));
+                    child: Text(
+                      'No products found',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                  );
                 }
                 return LayoutBuilder(
                   builder: (context, constraints) {
